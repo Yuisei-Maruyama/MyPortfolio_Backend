@@ -1,0 +1,14 @@
+{
+  "extends": "./tsconfig.settings",
+  "include": [
+    "src/index.ts",
+    "src/app.ts",
+    "src/**/*.ts",
+    "src/**/*.js"
+  ],
+  "exclude": [
+    "node_modules",
+    "**/*.spec.ts",
+    "**/*.spec.js"
+  ]
+}
