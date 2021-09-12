@@ -1,0 +1,106 @@
+openapi: 3.0.1
+info:
+  title: MyPortFolio RESTful Specification
+  description: MyPortFolio API情報
+  version: 1.0.0
+paths:
+  "/hobbies":
+    get:
+      tags: ["hobbies"]
+      summary: 趣味情報リスト取得
+      parameters:
+        - $ref: "#/components/parameters/Limit"
+        - $ref: "#/components/parameters/Offset"
+        - name: fields
+          in: query
+          description: |
+            取得するフィールド
+            無指定 = id, hobby_id, hobby_name, title, description
+          schema:
+            type: array
+            items:
+              type: string
+              enum:
+                - id
+                - hobby_id
+                - hobby_name
+                - title
+                - description
+      operationId: findHobbies
+      security:
+        - OAuth2: [openid]
+      responses:
+        200:
+          description: 趣味情報リスト
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  allOf:
+                    - required:
+                        - hobby_id
+                    - properties:
+                        hobby_id:
+                          uniqueItems: true
+                    - $ref: "#/components/schemas/Hobby"
+components:
+  schemas:
+    HobbyId:
+      type: string
+      description: 趣味番号
+      example: "000001"
+    Hobby:
+      type: object
+      description: 趣味情報
+      allOf:
+        - properties:
+            hobby_id:
+              $ref: "#/components/schemas/HobbyId"
+            hobby_name:
+              type: string
+              description: 趣味名
+              example: "Art"
+            title:
+              type: string
+              description: タイトル
+              example: "Banksyについて"
+            description:
+              type: string
+              description: 詳細
+              example: "Banksyとは、英国を拠点とする匿名のアーティスト、政治活動家、映画監督である。"
+  securitySchemes:
+    OAuth2:
+      type: oauth2
+      description: for Swagger UI
+      flows:
+        authorizationCode:
+          authorizationUrl: https://my-portfolio-maruyama.auth.ap-northeast-1.amazoncognito.com/oauth2/authorize
+          tokenUrl: https://my-portfolio-maruyama.auth.ap-northeast-1.amazoncognito.com/oauth2/token
+          scopes:
+            openid: openid token
+  parameters:
+    Limit:
+      name: limit
+      in: query
+      description: |
+        取得する件数 無指定 = 25
+      required: false
+      schema:
+        type: integer
+        minimum: 0
+    Offset:
+      name: offset
+      in: query
+      description: |
+        取得する件数 無指定 = 0
+      required: false
+      schema:
+        type: integer
+        minimum: 0
+  # requestBodies:
+  # responses:
+
+tags:
+  - name: hobbies
+    description: 趣味情報
