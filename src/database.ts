@@ -4,6 +4,7 @@ import { logger } from './server'
 
 export const connectDB = async (): Promise<void> => {
   try {
+    // console.log(process.env.PORTFOLIO_DB_URL)
     if (!process.env.PORTFOLIO_DB_URL) return
     await mongoose.connect(process.env.PORTFOLIO_DB_URL)
   } catch {
