@@ -19,13 +19,13 @@ export function createStep() {
     try {
       const result = new Step({
         name: req.body.name,
-        activeSteps: req.body.activeSteps,
+        activeStep: req.body.activeStep,
         steps: req.body.steps
       })
       await result.save()
       res.json(result)
     } catch {
-      exit("Not Can't created.", 1)
+      exit("Not created.", 1)
     }
   })
 }
