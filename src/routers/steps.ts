@@ -29,3 +29,14 @@ export function createStep() {
     }
   })
 }
+
+export function getStep() {
+  router.get('/step/:id', async (req, res) => {
+    try {
+      const result = await Step.findOne({ _id: req.params.id })
+      res.json(result)
+    } catch {
+      exit('Not found.', 1)
+    }
+  })
+}

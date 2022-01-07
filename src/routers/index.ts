@@ -1,7 +1,8 @@
 import express from 'express'
-import { fetchSteps, createStep } from './steps'
+import { fetchSteps, getStep, createStep } from './steps'
 
 export const router = express.Router()
 
 fetchSteps()
+getStep()
 createStep()
