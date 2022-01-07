@@ -58,3 +58,14 @@ export function updateStep() {
     }
   })
 }
+
+export function deleteStep() {
+  router.delete('/step/:id', async (req: Request, res: Response) => {
+    try {
+      await Step.deleteOne({ _id: req.params.id })
+      res.json({ "message": "step has been deleted." })
+    } catch {
+      exit('Not deleted.', 1)
+    }
+  })
+}
