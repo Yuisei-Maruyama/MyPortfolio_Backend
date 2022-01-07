@@ -1,7 +1,9 @@
 import { Request, Response, NextFunction } from 'express'
+import { Document } from 'mongoose'
 import { router } from './index'
 import Step from '../models/step'
 import { exit } from '..'
+import { Step as StepType } from '../types'
 
 export function fetchSteps() {
   try {
@@ -37,6 +39,22 @@ export function getStep() {
       res.json(result)
     } catch {
       exit('Not found.', 1)
+    }
+  })
+}
+
+export function updateStep() {
+  router.patch('/step/:id', async (req: Request, res: Response) => {
+    try {
+      const result = await Step.findOne({ _id: req.params.id })
+      if (!result) return
+      if (req.body.name) (result as unknown as { name: string }).name = req.body.name
+      if (req.body.activeStep) (result as unknown as { activeStep: number }).activeStep = req.body.activeStep
+      if (req.body.steps) (result as unknown as { steps: string[] }).steps = req.body.steps
+      await result.save()
+      res.json(result)
+    } catch {
+      exit('Not updated.', 1)
     }
   })
 }
