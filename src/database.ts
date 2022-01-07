@@ -1,12 +1,16 @@
 import mongoose from 'mongoose'
 import { exit } from '.'
-import { logger } from './server'
+import { logger, app } from './server'
+import { router } from './routers'
+
+const routes = router
 
 export const connectDB = async (): Promise<void> => {
   try {
     // console.log(process.env.PORTFOLIO_DB_URL)
     if (!process.env.PORTFOLIO_DB_URL) return
     await mongoose.connect(process.env.PORTFOLIO_DB_URL)
+    app.use("/", routes)
   } catch {
     exit('PORTFOLIO_DB_URL not found.', 1)
   }
