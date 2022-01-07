@@ -14,12 +14,11 @@ import { initialize } from 'express-openapi'
 import { join } from 'path'
 import terminalLink from 'terminal-link'
 
-const app = express()
+export const app = express()
 
 app.use(cors())
 
 const server = createServer(app)
-
 
 connectDB()
 eventListen()
