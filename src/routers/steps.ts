@@ -1,11 +1,11 @@
-import express from 'express'
+import { Request, Response, NextFunction } from 'express'
+import { router } from './index'
 import Step from '../models/step'
 
-const router = express.Router()
-
-router.get('/steps', async (req, res, next) => {
-  const result = await Step.find({
-    id: "61d5c209f96e6cb2faadbfaf"
+export function getSteps() {
+  router.get('/steps', async (req: Request, res: Response, next: NextFunction) => {
+    const result = await Step.find()
+    res.json(result)
   })
-  res.json(result)
-})
+}
+
