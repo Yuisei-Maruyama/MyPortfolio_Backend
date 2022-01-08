@@ -85,7 +85,69 @@ paths:
                     - properties:
                         id:
                           uniqueItems: true
-                    - $ref: "#/components/schemas/Steps"
+                    - $ref: "#/components/schemas/Step"
+  "/step":
+    post:
+      tags: ["steps"]
+      summary: ゴールイメージテーブルにおけるステップ情報新規登録
+      operationId: createStep
+      requestBody:
+        $ref: "#/components/requestBodies/Step"
+      responses:
+        202:
+          description: ステップが追加されました
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/StepId"
+  "/steps/{step_id}":
+    get:
+      tags: ["steps"]
+      summary:  ゴールイメージテーブルにおける対象のステップ情報
+      parameters:
+        - $ref: "#/components/parameters/StepId"
+      operationId: getStep
+      responses:
+        200:
+          description: ステップ情報
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Step"
+        404:
+          description: ステップが見つかりません
+    patch:
+      tags: ["steps"]
+      summary:  ゴールイメージテーブルにおける対象のステップ情報
+      parameters:
+        - $ref: "#/components/parameters/StepId"
+      requestBody:
+        $ref: "#/components/requestBodies/Step"
+      operationId: updateStep
+      responses:
+        200:
+          description: ステップ情報
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Step"
+        404:
+          description: ステップが見つかりません
+    delete:
+      tags: ["steps"]
+      summary: ゴールイメージテーブルにおけるステップ情報削除
+      parameters:
+        - $ref: "#/components/parameters/StepId"
+      operationId: deleteStep
+      responses:
+        202:
+          description: ステップが削除されました
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/StepId"
+        404:
+          description: ステップが見つかりません
 components:
   schemas:
     HobbyId:
@@ -115,11 +177,11 @@ components:
       type: string
       description: step番号
       example: "000001"
-    Step:
+    StepLabel:
       type: string
       description: 各Stepラベル
       example: "create-react-app"
-    Steps:
+    Step:
       type: object
       description: Step情報
       allOf:
@@ -137,7 +199,7 @@ components:
             steps:
               type: array
               items:
-                $ref: "#/components/schemas/Step"
+                $ref: "#/components/schemas/StepLabel"
   securitySchemes:
     OAuth2:
       type: oauth2
@@ -167,7 +229,21 @@ components:
       schema:
         type: integer
         minimum: 0
-  # requestBodies:
+    StepId:
+      name: step_id
+      in: path
+      required: true
+      description: 対象ステップID
+      schema:
+        $ref: "#/components/schemas/StepId"
+  requestBodies:
+    Step:
+      description: ステップ情報
+      content:
+        application/json:
+          schema:
+            allOf:
+              - $ref: "#/components/schemas/Step"
   # responses:
 
 tags:
