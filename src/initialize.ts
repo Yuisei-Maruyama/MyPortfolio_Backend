@@ -27,13 +27,11 @@ export const initializeYaml = () => initialize({
     findHobbies: function (req, res) {
       res.send('hobby')
     },
-    fetchSteps: function() {
-      fetchSteps()
-    },
-    getStep: () => getStep(),
-    createStep: () => createStep(),
-    updateStep: () => updateStep(),
-    deleteStep: () => deleteStep()
+    fetchSteps: fetchSteps,
+    getStep: getStep,
+    createStep: createStep,
+    updateStep: updateStep,
+    deleteStep: deleteStep
   },
   consumesMiddleware: { 'application/json': express.json() } // Content-Typeの指定
   // securityHandlers: { oauth2 }
