@@ -1,7 +1,8 @@
 import mongoose from 'mongoose'
 import express from 'express'
 import { exit } from '.'
-import { logger, app } from './server'
+import { app } from './server'
+import { logger } from './logger'
 import { router } from './routers'
 
 const routes = router
