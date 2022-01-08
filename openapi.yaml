@@ -44,6 +44,48 @@ paths:
                         hobby_id:
                           uniqueItems: true
                     - $ref: "#/components/schemas/Hobby"
+  "/steps":
+    get:
+      tags: ["steps"]
+      summary: ゴールイメージテーブルにおけるステップ情報一覧
+      parameters:
+        - $ref: "#/components/parameters/Limit"
+        - $ref: "#/components/parameters/Offset"
+        - name: fields
+          in: query
+          description: |
+            取得するフィールド
+            無指定 = id, name, activeStep, steps
+          schema:
+            type: array
+            items:
+              type: string
+              enum:
+                - id
+                - name
+                - activeStep
+                - steps
+      operationId: fetchSteps
+      security:
+        - OAuth2: [openid]
+      responses:
+        200:
+          description: ステップリスト
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  allOf:
+                    - required:
+                        - id
+                        - name
+                        - activeStep
+                        - steps
+                    - properties:
+                        id:
+                          uniqueItems: true
+                    - $ref: "#/components/schemas/Steps"
 components:
   schemas:
     HobbyId:
@@ -69,6 +111,33 @@ components:
               type: string
               description: 詳細
               example: "Banksyとは、英国を拠点とする匿名のアーティスト、政治活動家、映画監督である。"
+    StepId:
+      type: string
+      description: step番号
+      example: "000001"
+    Step:
+      type: string
+      description: 各Stepラベル
+      example: "create-react-app"
+    Steps:
+      type: object
+      description: Step情報
+      allOf:
+        - properties:
+            id:
+              $ref: "#/components/schemas/StepId"
+            name:
+              type: string
+              description: 技術名
+              example: "React.js"
+            activeStep:
+              type: number
+              description: アクティブな状態のステップ番号
+              example: 3
+            steps:
+              type: array
+              items:
+                $ref: "#/components/schemas/Step"
   securitySchemes:
     OAuth2:
       type: oauth2
@@ -104,3 +173,5 @@ components:
 tags:
   - name: hobbies
     description: 趣味情報
+  - name: steps
+    description: ステップ情報
