@@ -1,5 +1,4 @@
 import { Request, Response, NextFunction } from 'express'
-import { Document } from 'mongoose'
 import { router } from './index'
 import Step from '../models/step'
 import { exit } from '..'
