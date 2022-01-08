@@ -3,7 +3,6 @@ import { Document } from 'mongoose'
 import { router } from './index'
 import Step from '../models/step'
 import { exit } from '..'
-import { Step as StepType } from '../types'
 
 export function fetchSteps() {
   try {
